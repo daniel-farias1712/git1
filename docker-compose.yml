@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tododb
+      SPRING_DATASOURCE_USERNAME: todo_user
+      SPRING_DATASOURCE_PASSWORD: todo_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: tododb
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: todo_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
